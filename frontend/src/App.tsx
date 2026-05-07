@@ -15,8 +15,13 @@ function App() {
     setError('');
     setImageUrl('');
 
+    // Detecta se está rodando em produção ou local
+    const API_URL = window.location.hostname === 'localhost' 
+      ? 'http://localhost:8000' 
+      : 'https://lumina-api.willianpinho.com';
+
     try {
-      const response = await fetch('http://localhost:8000/generate', {
+      const response = await fetch(`${API_URL}/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -9,6 +9,12 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     networks:
       - traefik-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.lumina-api.rule=Host(`lumina-api.willianpinho.com`)"
+      - "traefik.http.routers.lumina-api.entrypoints=websecure"
+      - "traefik.http.routers.lumina-api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.lumina-api.loadbalancer.server.port=8000"
 
   lumina-frontend:
     build: ./frontend
