@@ -1,52 +1,87 @@
-# Lumina Art - AI Image Generator
+# 🌌 Lumina Art: AI-Powered Masterpiece Generator
 
-Este é um protótipo funcional de um gerador de imagens usando OpenAI DALL-E 3, configurado com práticas modernas de segurança (1Password CLI).
+[![OpenAI](https://img.shields.io/badge/AI-DALL--E%203-green.svg)](https://openai.com/dall-e-3)
+[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/Frontend-React-61DAFB.svg)](https://reactjs.org/)
+[![Docker](https://img.shields.io/badge/DevOps-Docker-2496ED.svg)](https://www.docker.com/)
+[![1Password](https://img.shields.io/badge/Security-1Password-0094F5.svg)](https://1password.com/)
 
-## Estrutura
-- `backend/`: API FastAPI (Python) que atua como proxy seguro.
-- `frontend/`: Interface React (Vite + TypeScript) para experiência do usuário.
+**Lumina Art** is a high-performance, full-stack application designed to transform creative prompts into stunning visual art using OpenAI's DALL-E 3. Built with a focus on modern engineering standards, security, and seamless deployment.
 
-## Como rodar com Segurança (1Password)
+🔗 **Live Demo:** [https://lumina.willianpinho.com](https://lumina.willianpinho.com)
 
-Este projeto está configurado para não armazenar chaves em texto puro. Utilizaremos o 1Password CLI (`op`).
+---
 
-### 1. Preparar o Backend
-```bash
-cd backend
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
+## 🛠 Engineering Excellence
 
-### 2. Configurar Variável de Ambiente
-Crie o arquivo `.env` usando a referência do seu 1Password:
-```bash
-echo 'OPENAI_API_KEY="op://VaultName/ItemName/credential"' > .env
-```
-*Substitua `VaultName/ItemName/credential` pelo caminho real no seu 1Password.*
+This project was built to demonstrate more than just AI integration; it showcases a robust production-ready architecture:
 
-### 3. Iniciar com Segurança
-O comando abaixo injeta a chave em memória sem salvá-la no ambiente global:
-```bash
-op run --env-file=.env -- python main.py
-```
+### 1. **Security-First Credential Management**
+*   **1Password Integration:** Utilizes the 1Password CLI (`op`) to inject API keys into the environment at runtime, ensuring that sensitive credentials never touch the disk in plain text.
+*   **Secure Proxy Pattern:** The React frontend never communicates directly with OpenAI. A FastAPI backend acts as a secure proxy, protecting the API key and enforcing rate limits.
 
-### 4. Iniciar o Frontend
-Em outro terminal:
-```bash
-cd frontend
-npm install
-npm run dev
+### 2. **Advanced DevOps & Infrastructure**
+*   **Containerization:** Fully Dockerized with a multi-stage build process for optimized frontend delivery via Nginx and a lightweight Python backend.
+*   **Cloud Native Orchestration:** Integrated with **Traefik** for automated SSL/TLS certificate management (Let's Encrypt) and high-performance load balancing.
+*   **Zero-Exposure Deployment:** Automated shell scripts for secure deployment to Hetzner VPS, handling key injection and service updates via SSH pipes.
+
+### 3. **Modern UX/UI Design**
+*   **Glassmorphism Aesthetic:** A sophisticated dark-mode interface featuring translucid layers, backdrop filters, and vibrant gradients.
+*   **Responsive Performance:** Built with **Vite** and **React** for lightning-fast interactivity and optimized asset loading.
+
+---
+
+## 🏗 Tech Stack
+
+- **Frontend:** React 18, TypeScript, Vite, Vanilla CSS (Custom Glassmorphism).
+- **Backend:** Python 3.11, FastAPI, Pydantic, OpenAI SDK.
+- **Infrastructure:** Docker, Docker Compose, Traefik, Nginx.
+- **Tooling:** 1Password CLI, GitHub CLI, SSH.
+
+---
+
+## 🚀 Local Development
+
+### Prerequisites
+- Python 3.11+
+- Node.js 18+
+- 1Password CLI (optional, but recommended)
+
+### Setup
+1. **Clone & Install:**
+   ```bash
+   git clone https://github.com/willianpinho/lumina-art.git
+   cd lumina-art
+   ```
+
+2. **Backend:**
+   ```bash
+   cd backend
+   pip install -r requirements.txt
+   # Run with 1Password:
+   op run --env-file=.env -- uvicorn main:app --reload
+   ```
+
+3. **Frontend:**
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+---
+
+## 📐 Architecture Overview
+
+```mermaid
+graph TD
+    A[User Browser] -->|HTTPS| B(Traefik Reverse Proxy)
+    B -->|Route /| C[Frontend Container: Nginx]
+    B -->|Route /generate| D[Backend Container: FastAPI]
+    D -->|Secure API Call| E[OpenAI DALL-E 3 API]
+    F[(1Password Vault)] -.->|op run injection| D
 ```
 
 ---
 
-## Passo a Passo da Criação (Roteiro)
-
-Para construir este protótipo, segui estes princípios de engenharia:
-
-1.  **Scaffolding Limpo:** Separação clara entre lógica de negócio (Python) e interface (React).
-2.  **Proxy de Segurança:** O backend protege a chave de API e evita erros de CORS que ocorreriam se o frontend chamasse a OpenAI diretamente.
-3.  **Tipagem Estrita:** Uso de TypeScript no frontend e Pydantic no backend para garantir contratos de dados válidos.
-4.  **UX Responsiva:** Implementação de estados de `loading` e `error` para que o usuário saiba exatamente o que está acontecendo durante o processamento da IA.
-5.  **Segurança First:** Integração com 1Password para garantir que credenciais nunca sejam commitadas ou expostas em texto puro.
+Built with ⚡ by [Willian Pinho](https://willianpinho.com)
