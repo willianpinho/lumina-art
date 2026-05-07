@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  lumina-backend:
+    build: ./backend
+    container_name: lumina-backend
+    restart: always
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    networks:
+      - traefik-network
+
+  lumina-frontend:
+    build: ./frontend
+    container_name: lumina-frontend
+    restart: always
+    networks:
+      - traefik-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.lumina.rule=Host(`lumina.willianpinho.com`)"
+      - "traefik.http.routers.lumina.entrypoints=websecure"
+      - "traefik.http.routers.lumina.tls.certresolver=letsencrypt"
+
+networks:
+  traefik-network:
+    external: true
