@@ -3,7 +3,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from openai import OpenAI
-from dotenv import load_dotenv
 
 app = FastAPI(title="Lumina Art API")
 
@@ -16,40 +15,57 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 class ImageRequest(BaseModel):
     prompt: str
+
 
 @app.post("/generate")
 async def generate_image(request: ImageRequest):
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key or api_key.startswith("op://"):
         raise HTTPException(
-            status_code=500, 
-            detail="OpenAI API Key não configurada corretamente ou ainda é uma referência op://. Use 'op run' para iniciar."
+            status_code=500,
+            detail="OpenAI API Key não configurada corretamente ou ainda é uma referência op://. Use 'op run' para iniciar.",
         )
-    
+
     try:
         # Inicializa o cliente com a chave resolvida
         client = OpenAI(api_key=api_key)
-        
+
+        # gpt-image-1 (current canonical, April 2025+) replaces deprecated dall-e-3.
+        # Returns base64 by default (no URL response). We expose it as a data URL so
+        # the existing frontend contract ({url: string}) stays unchanged — <img src>
+        # accepts data URLs natively.
         response = client.images.generate(
-            model="dall-e-3",
+            model="gpt-image-1",
             prompt=request.prompt,
             size="1024x1024",
-            quality="standard",
+            quality="medium",  # gpt-image-1 quality enum: low | medium | high | auto
             n=1,
         )
-        
-        image_url = response.data[0].url
-        return {"url": image_url}
+
+        b64 = response.data[0].b64_json
+        if not b64:
+            raise HTTPException(
+                status_code=502, detail="OpenAI returned no image payload."
+            )
+
+        data_url = f"data:image/png;base64,{b64}"
+        return {"url": data_url}
+    except HTTPException:
+        raise
     except Exception as e:
         print(f"Erro na geração: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
 
+
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)
