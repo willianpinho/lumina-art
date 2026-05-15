@@ -1,12 +1,12 @@
 # 🌌 Lumina Art: AI-Powered Masterpiece Generator
 
-[![OpenAI](https://img.shields.io/badge/AI-DALL--E%203-green.svg)](https://openai.com/dall-e-3)
+[![OpenAI](https://img.shields.io/badge/AI-gpt--image--1-green.svg)](https://platform.openai.com/docs/models/gpt-image-1)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/Frontend-React-61DAFB.svg)](https://reactjs.org/)
 [![Docker](https://img.shields.io/badge/DevOps-Docker-2496ED.svg)](https://www.docker.com/)
 [![1Password](https://img.shields.io/badge/Security-1Password-0094F5.svg)](https://1password.com/)
 
-**Lumina Art** is a high-performance, full-stack application designed to transform creative prompts into stunning visual art using OpenAI's DALL-E 3. Built with a focus on modern engineering standards, security, and seamless deployment.
+**Lumina Art** is a high-performance, full-stack application designed to transform creative prompts into stunning visual art using OpenAI's `gpt-image-1` model (the April 2025 successor to DALL-E 3). Built with a focus on modern engineering standards, security, and seamless deployment.
 
 🔗 **Live Demo:** [https://lumina.willianpinho.com](https://lumina.willianpinho.com)
 
@@ -17,17 +17,20 @@
 This project was built to demonstrate more than just AI integration; it showcases a robust production-ready architecture:
 
 ### 1. **Security-First Credential Management**
-*   **1Password Integration:** Utilizes the 1Password CLI (`op`) to inject API keys into the environment at runtime, ensuring that sensitive credentials never touch the disk in plain text.
-*   **Secure Proxy Pattern:** The React frontend never communicates directly with OpenAI. A FastAPI backend acts as a secure proxy, protecting the API key and enforcing rate limits.
+
+- **1Password Integration:** Utilizes the 1Password CLI (`op`) to inject API keys into the environment at runtime, ensuring that sensitive credentials never touch the disk in plain text.
+- **Secure Proxy Pattern:** The React frontend never communicates directly with OpenAI. A FastAPI backend acts as a secure proxy, protecting the API key and enforcing rate limits.
 
 ### 2. **Advanced DevOps & Infrastructure**
-*   **Containerization:** Fully Dockerized with a multi-stage build process for optimized frontend delivery via Nginx and a lightweight Python backend.
-*   **Cloud Native Orchestration:** Integrated with **Traefik** for automated SSL/TLS certificate management (Let's Encrypt) and high-performance load balancing.
-*   **Zero-Exposure Deployment:** Automated shell scripts for secure deployment to Hetzner VPS, handling key injection and service updates via SSH pipes.
+
+- **Containerization:** Fully Dockerized with a multi-stage build process for optimized frontend delivery via Nginx and a lightweight Python backend.
+- **Cloud Native Orchestration:** Integrated with **Traefik** for automated SSL/TLS certificate management (Let's Encrypt) and high-performance load balancing.
+- **Zero-Exposure Deployment:** Automated shell scripts for secure deployment to Hetzner VPS, handling key injection and service updates via SSH pipes.
 
 ### 3. **Modern UX/UI Design**
-*   **Glassmorphism Aesthetic:** A sophisticated dark-mode interface featuring translucid layers, backdrop filters, and vibrant gradients.
-*   **Responsive Performance:** Built with **Vite** and **React** for lightning-fast interactivity and optimized asset loading.
+
+- **Glassmorphism Aesthetic:** A sophisticated dark-mode interface featuring translucid layers, backdrop filters, and vibrant gradients.
+- **Responsive Performance:** Built with **Vite** and **React** for lightning-fast interactivity and optimized asset loading.
 
 ---
 
@@ -43,18 +46,22 @@ This project was built to demonstrate more than just AI integration; it showcase
 ## 🚀 Local Development
 
 ### Prerequisites
+
 - Python 3.11+
 - Node.js 18+
 - 1Password CLI (optional, but recommended)
 
 ### Setup
+
 1. **Clone & Install:**
+
    ```bash
    git clone https://github.com/willianpinho/lumina-art.git
    cd lumina-art
    ```
 
 2. **Backend:**
+
    ```bash
    cd backend
    pip install -r requirements.txt
