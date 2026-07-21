@@ -6,11 +6,13 @@ from openai import OpenAI
 
 app = FastAPI(title="Lumina Art API")
 
-# Configuração de CORS para permitir que o frontend acesse o backend
+# CORS so the frontend can reach the backend. This API uses no cookies or
+# credentials, so credentials stay disabled — a wildcard origin combined with
+# allow_credentials=True is rejected by browsers.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -26,11 +28,11 @@ async def generate_image(request: ImageRequest):
     if not api_key or api_key.startswith("op://"):
         raise HTTPException(
             status_code=500,
-            detail="OpenAI API Key não configurada corretamente ou ainda é uma referência op://. Use 'op run' para iniciar.",
+            detail="OpenAI API key is not configured correctly or is still an op:// reference. Start the server with 'op run'.",
         )
 
     try:
-        # Inicializa o cliente com a chave resolvida
+        # Initialize the client with the resolved key
         client = OpenAI(api_key=api_key)
 
         # gpt-image-1 (current canonical, April 2025+) replaces deprecated dall-e-3.
@@ -56,7 +58,7 @@ async def generate_image(request: ImageRequest):
     except HTTPException:
         raise
     except Exception as e:
-        print(f"Erro na geração: {str(e)}")
+        print(f"Generation error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 

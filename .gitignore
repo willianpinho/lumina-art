@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.ruff_cache/
+
+# Node
+node_modules/
+dist/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Environment (NEVER commit secrets)
+.env
+.env.*
+!.env.example
+!.env.template
+
+# Logs
+*.log

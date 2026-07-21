@@ -1,7 +1,3 @@
-fastapi
-uvicorn
-openai
-python-dotenv
-httpx
-python-multipart
-fastapi-cors
+fastapi==0.139.2
+uvicorn==0.51.0
+openai==2.46.0
