@@ -4,6 +4,11 @@ __pycache__/
 *.egg-info/
 .venv/
 venv/
+.ruff_cache/
+
+# Node
+node_modules/
+dist/
 
 # OS Files
 .DS_Store
