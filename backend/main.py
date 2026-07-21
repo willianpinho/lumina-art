@@ -28,11 +28,11 @@ async def generate_image(request: ImageRequest):
     if not api_key or api_key.startswith("op://"):
         raise HTTPException(
             status_code=500,
-            detail="OpenAI API Key não configurada corretamente ou ainda é uma referência op://. Use 'op run' para iniciar.",
+            detail="OpenAI API key is not configured correctly or is still an op:// reference. Start the server with 'op run'.",
         )
 
     try:
-        # Inicializa o cliente com a chave resolvida
+        # Initialize the client with the resolved key
         client = OpenAI(api_key=api_key)
 
         # gpt-image-1 (current canonical, April 2025+) replaces deprecated dall-e-3.
@@ -58,7 +58,7 @@ async def generate_image(request: ImageRequest):
     except HTTPException:
         raise
     except Exception as e:
-        print(f"Erro na geração: {str(e)}")
+        print(f"Generation error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
