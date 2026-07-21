@@ -19,7 +19,7 @@ This project was built to demonstrate more than just AI integration; it showcase
 ### 1. **Security-First Credential Management**
 
 - **1Password Integration:** Utilizes the 1Password CLI (`op`) to inject API keys into the environment at runtime, ensuring that sensitive credentials never touch the disk in plain text.
-- **Secure Proxy Pattern:** The React frontend never communicates directly with OpenAI. A FastAPI backend acts as a secure proxy, protecting the API key and enforcing rate limits.
+- **Secure Proxy Pattern:** The React frontend never communicates directly with OpenAI. A FastAPI backend acts as a secure proxy, keeping the API key server-side and never exposing it to the browser.
 
 ### 2. **Advanced DevOps & Infrastructure**
 
@@ -85,7 +85,7 @@ graph TD
     A[User Browser] -->|HTTPS| B(Traefik Reverse Proxy)
     B -->|Route /| C[Frontend Container: Nginx]
     B -->|Route /generate| D[Backend Container: FastAPI]
-    D -->|Secure API Call| E[OpenAI DALL-E 3 API]
+    D -->|Secure API Call| E[OpenAI gpt-image-1 API]
     F[(1Password Vault)] -.->|op run injection| D
 ```
 
