@@ -6,11 +6,13 @@ from openai import OpenAI
 
 app = FastAPI(title="Lumina Art API")
 
-# Configuração de CORS para permitir que o frontend acesse o backend
+# CORS so the frontend can reach the backend. This API uses no cookies or
+# credentials, so credentials stay disabled — a wildcard origin combined with
+# allow_credentials=True is rejected by browsers.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
