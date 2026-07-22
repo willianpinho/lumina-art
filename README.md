@@ -1,4 +1,4 @@
-# 🌌 Lumina Art: AI-Powered Masterpiece Generator
+# 🌌 Lumina Art
 
 [![OpenAI](https://img.shields.io/badge/AI-gpt--image--1-green.svg)](https://platform.openai.com/docs/models/gpt-image-1)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
@@ -6,7 +6,7 @@
 [![Docker](https://img.shields.io/badge/DevOps-Docker-2496ED.svg)](https://www.docker.com/)
 [![1Password](https://img.shields.io/badge/Security-1Password-0094F5.svg)](https://1password.com/)
 
-**Lumina Art** is a high-performance, full-stack application designed to transform creative prompts into stunning visual art using OpenAI's `gpt-image-1` model (the April 2025 successor to DALL-E 3). Built with a focus on modern engineering standards, security, and seamless deployment.
+**Lumina Art** is a small, focused demo of a secure server-side proxy for OpenAI's `gpt-image-1` image generation model (the April 2025 successor to DALL-E 3). The React frontend sends a prompt to a FastAPI backend, which holds the API key and is the only thing that talks to OpenAI — the key never reaches the browser.
 
 🔗 **Live Demo:** [https://lumina.willianpinho.com](https://lumina.willianpinho.com)
 
@@ -22,25 +22,24 @@
 
 ---
 
-## 🛠 Engineering Excellence
+## 🛠 What This Demonstrates
 
-This project was built to demonstrate more than just AI integration; it showcases a robust production-ready architecture:
+This is a single-endpoint proxy, not a full product — but the pattern is one worth getting right:
 
-### 1. **Security-First Credential Management**
+### 1. **Secure Credential Handling**
 
-- **1Password Integration:** Utilizes the 1Password CLI (`op`) to inject API keys into the environment at runtime, ensuring that sensitive credentials never touch the disk in plain text.
 - **Secure Proxy Pattern:** The React frontend never communicates directly with OpenAI. A FastAPI backend acts as a secure proxy, keeping the API key server-side and never exposing it to the browser.
+- **1Password CLI for local dev:** Injects the API key into the environment at runtime via `op run`, so it never sits in a plaintext `.env` on disk (optional, recommended workflow — see Setup below).
 
-### 2. **Advanced DevOps & Infrastructure**
+### 2. **Deployment**
 
-- **Containerization:** Fully Dockerized with a multi-stage build process for optimized frontend delivery via Nginx and a lightweight Python backend.
-- **Cloud Native Orchestration:** Integrated with **Traefik** for automated SSL/TLS certificate management (Let's Encrypt) and high-performance load balancing.
-- **Zero-Exposure Deployment:** Automated shell scripts for secure deployment to Hetzner VPS, handling key injection and service updates via SSH pipes.
+- **Containerization:** Dockerized with a multi-stage build for the frontend (served via Nginx) and a lightweight Python backend container.
+- **TLS via Traefik:** Deployed behind Traefik with automatic Let's Encrypt certificate management.
 
-### 3. **Modern UX/UI Design**
+### 3. **UI**
 
-- **Glassmorphism Aesthetic:** A sophisticated dark-mode interface featuring translucid layers, backdrop filters, and vibrant gradients.
-- **Responsive Performance:** Built with **Vite** and **React** for lightning-fast interactivity and optimized asset loading.
+- **Glassmorphism Aesthetic:** A dark-mode interface with translucent layers, backdrop filters, and gradients.
+- Built with **Vite** and **React**.
 
 ---
 
@@ -85,6 +84,23 @@ This project was built to demonstrate more than just AI integration; it showcase
    npm install
    npm run dev
    ```
+
+### Running Tests
+
+```bash
+cd backend
+pip install -r requirements-dev.txt
+pytest -v
+```
+
+---
+
+## Scope
+
+This is a ~200-line, single-endpoint proxy — not a full product. No queue, rate
+limiting, persistence, or auth; the backend has unit tests covering input
+validation and the OpenAI call (mocked), the frontend does not yet. Deliberately
+small: proxying the API key is the entire job.
 
 ---
 

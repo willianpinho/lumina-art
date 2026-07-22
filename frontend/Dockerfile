@@ -1,4 +1,4 @@
-# Estágio de Build
+# Build stage
 FROM node:18-alpine as build
 WORKDIR /app
 COPY package*.json ./
@@ -6,10 +6,10 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# Estágio de Produção
+# Production stage
 FROM nginx:stable-alpine
 COPY --from=build /app/dist /usr/share/nginx/html
-# Configuração básica do Nginx para SPA (Single Page Application)
+# Basic Nginx configuration for the SPA (Single Page Application)
 RUN echo 'server { \
     listen 80; \
     location / { \

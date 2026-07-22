@@ -1,8 +1,10 @@
 import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from openai import OpenAI
+
+MAX_PROMPT_LENGTH = 1000
 
 app = FastAPI(title="Lumina Art API")
 
@@ -19,7 +21,7 @@ app.add_middleware(
 
 
 class ImageRequest(BaseModel):
-    prompt: str
+    prompt: str = Field(min_length=1, max_length=MAX_PROMPT_LENGTH)
 
 
 @app.post("/generate")
@@ -58,8 +60,12 @@ async def generate_image(request: ImageRequest):
     except HTTPException:
         raise
     except Exception as e:
+        # Log the real error server-side, but never leak it to the client —
+        # OpenAI SDK exceptions can echo back request details.
         print(f"Generation error: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(
+            status_code=500, detail="Image generation failed. Please try again."
+        )
 
 
 @app.get("/health")
